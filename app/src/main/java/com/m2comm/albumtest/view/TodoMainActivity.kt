@@ -75,7 +75,7 @@ class TodoMainActivity : AppCompatActivity() {
         mTodoListAdapter = TodoListAdapter(mTodoItems).apply {
             listener = object : TodoListAdapter.OnTodoItemClickListener {
                 override fun onTodoItemClick(position: Int) {
-                    Toast.makeText(this@TodoMainActivity , "onClick=${position}",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@TodoMainActivity , "abconClick=${position}",Toast.LENGTH_SHORT).show()
 
                 }
 
