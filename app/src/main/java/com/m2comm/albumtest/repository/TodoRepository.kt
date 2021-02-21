@@ -28,4 +28,10 @@ class TodoRepository(application : Application) {
         }).start()
     }
 
+    fun updateTodo(todoModel: Todo) {
+        Thread(Runnable {
+            mTodoDAO.updateTodo(todoModel)
+        })
+    }
+
 }

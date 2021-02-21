@@ -24,5 +24,9 @@ class TodoViewModel(application: Application) : AndroidViewModel(application){
         return mTodoItems
     }
 
+    fun updateTodo (todoModel: Todo) {
+        mTodoRepository.updateTodo(todoModel)
+    }
+
 
 }

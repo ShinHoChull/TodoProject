@@ -3,6 +3,10 @@ package com.m2comm.albumtest.view
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -67,12 +71,28 @@ class TodoMainActivity : AppCompatActivity() {
 
 
     private fun initRecyclerView() {
-        mTodoListAdapter = TodoListAdapter(mTodoItems)
+
+        mTodoListAdapter = TodoListAdapter(mTodoItems).apply {
+            listener = object : TodoListAdapter.OnTodoItemClickListener {
+                override fun onTodoItemClick(position: Int) {
+                    Toast.makeText(this@TodoMainActivity , "onClick=${position}",Toast.LENGTH_SHORT).show()
+
+                }
+
+                override fun onTodoItemLongClick(position: Int) {
+                    Toast.makeText(this@TodoMainActivity , "onLongClick=${position}",Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
         rl_todo_list.run {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@TodoMainActivity)
             adapter = mTodoListAdapter
         }
 
+
     }
+
+
 }

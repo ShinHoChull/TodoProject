@@ -6,7 +6,6 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.provider.MediaStore
-import android.provider.Settings
 import android.util.Base64
 import android.util.Log
 import android.widget.Button
@@ -17,7 +16,7 @@ import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.StringRequestListener
 import com.bumptech.glide.Glide
-import com.m2comm.albumtest.Custom_SharedPreferences
+import com.m2comm.albumtest.modules.Custom_SharedPreferences
 import com.m2comm.albumtest.R
 import java.io.ByteArrayOutputStream
 
@@ -27,7 +26,8 @@ class MainActivity : AppCompatActivity() {
     val REQ_GALLERY = 999
     var img: ImageView? = null
     var imgPath: String? = ""
-    var customSharedpreferences = Custom_SharedPreferences(this)
+    var customSharedpreferences =
+        Custom_SharedPreferences(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

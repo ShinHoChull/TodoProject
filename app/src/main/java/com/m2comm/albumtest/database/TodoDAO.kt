@@ -14,4 +14,8 @@ interface TodoDAO {
     @Insert
     fun insertTodo(todoModel : Todo)
 
+    @Update
+    fun updateTodo(todoModel: Todo)
+
+
 }

@@ -14,6 +14,14 @@ import kotlin.collections.ArrayList
 class TodoListAdapter(var todoItems: ArrayList<Todo>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    var listener : OnTodoItemClickListener? = null
+
+    //onclick  구현
+    interface OnTodoItemClickListener {
+        fun onTodoItemClick(position : Int)
+        fun onTodoItemLongClick(position : Int)
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
@@ -42,20 +50,35 @@ class TodoListAdapter(var todoItems: ArrayList<Todo>) :
         todoItems.add(todoModel)
         notifyDataSetChanged()
     }
-}
 
-class TodoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class TodoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    val title = itemView.tv_todo_title
-    val description = itemView.tv_todo_description
-    val createdData = itemView.tv_todo_created_date
+        val title = itemView.tv_todo_title
+        val description = itemView.tv_todo_description
+        val createdData = itemView.tv_todo_created_date
 
-    fun bind(todoModel: Todo) {
-        title.text = todoModel.title
-        description.text = todoModel.description
-        createdData.text = todoModel.createdDate.toDateString("yyyy.MM.dd HH:mm")
+
+        init {
+            itemView.setOnClickListener{
+                listener?.onTodoItemClick(adapterPosition)
+            }
+
+            itemView.setOnLongClickListener {
+                listener?.onTodoItemLongClick(adapterPosition)
+                return@setOnLongClickListener true
+            }
+        }
+
+        fun bind(todoModel: Todo) {
+            title.text = todoModel.title
+            description.text = todoModel.description
+            createdData.text = todoModel.createdDate.toDateString("yyyy.MM.dd HH:mm")
+        }
     }
+
 }
+
+
 
 //extension 기능.
 fun Long.toDateString(format: String): String {
