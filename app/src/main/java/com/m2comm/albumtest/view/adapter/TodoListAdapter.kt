@@ -35,11 +35,14 @@ class TodoListAdapter(var todoItems: ArrayList<Todo>) :
         val todoModel = todoItems[position]
         val todoViewHolder = holder as TodoViewHolder
         todoViewHolder.bind(todoModel)
+
     }
 
     override fun getItemCount(): Int {
         return todoItems.size
     }
+
+    fun getItem(position: Int) : Todo = todoItems[position]
 
     fun setTodoItems(todoItems : List<Todo>) {
         this.todoItems = todoItems as ArrayList<Todo>

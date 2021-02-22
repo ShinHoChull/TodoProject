@@ -1,10 +1,17 @@
 package com.m2comm.albumtest.repository
 
 import android.app.Application
+import android.util.Log
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import com.m2comm.albumtest.database.TodoDAO
 import com.m2comm.albumtest.database.TodoDatabase
+import com.m2comm.albumtest.model.Test
 import com.m2comm.albumtest.model.Todo
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class TodoRepository(application : Application) {
 
@@ -23,15 +30,24 @@ class TodoRepository(application : Application) {
     }
 
     fun insertTodo(todoModel : Todo) {
-        Thread(Runnable {
+        GlobalScope.launch(Dispatchers.IO) {
             mTodoDAO.insertTodo(todoModel)
-        }).start()
+        }
+
     }
 
     fun updateTodo(todoModel: Todo) {
-        Thread(Runnable {
+        GlobalScope.launch(Dispatchers.IO) {
             mTodoDAO.updateTodo(todoModel)
-        })
+        }
+
+    }
+
+    fun deleteTodo(todoModel : Todo) {
+        GlobalScope.launch(Dispatchers.IO) {
+            mTodoDAO.deleteTodo(todoModel)
+        }
+
     }
 
 }

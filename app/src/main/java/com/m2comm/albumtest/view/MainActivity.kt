@@ -10,6 +10,7 @@ import android.util.Base64
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import com.androidnetworking.AndroidNetworking
@@ -18,85 +19,85 @@ import com.androidnetworking.interfaces.StringRequestListener
 import com.bumptech.glide.Glide
 import com.m2comm.albumtest.modules.Custom_SharedPreferences
 import com.m2comm.albumtest.R
+import com.m2comm.albumtest.database.TestDAO
+import com.m2comm.albumtest.database.TestDatabase
+import com.m2comm.albumtest.database.TodoDAO
+import com.m2comm.albumtest.database.TodoDatabase
+import com.m2comm.albumtest.model.Test
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.*
 import java.io.ByteArrayOutputStream
+import java.lang.Runnable
 
 
 class MainActivity : AppCompatActivity() {
 
-    val REQ_GALLERY = 999
-    var img: ImageView? = null
-    var imgPath: String? = ""
-    var customSharedpreferences =
-        Custom_SharedPreferences(this)
+    private lateinit var mTestDAO : TestDAO
+    private lateinit var mTestDatabase : TestDatabase
+
+    var mData : Test? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        mTestDatabase = TestDatabase.getInstance(application)
+        mTestDAO = mTestDatabase.TestDAO()
 
-        img = findViewById(R.id.imageView)
-        val bt: Button = findViewById(R.id.button)
-        val imgPath = customSharedpreferences.getValue("imgPath", "")
 
-        if (!imgPath.equals("")) {
-            Log.d("img", imgPath)
-            Glide.with(this).load(imgPath).into(img!!)
+        GlobalScope.launch(Dispatchers.IO) {
+            Log.d("MainActivity=","123")
+            mData = mTestDAO.getData()
+            if (mData != null) {
+                Log.d("MainActivity=",mData.toString())
+                editTextTextPersonName.setText(mData!!.title)
+            }
         }
 
 
-        bt.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            intent.type = "image/*"
-            startActivityForResult(intent, REQ_GALLERY)
+        this.initButton()
+
+    }
+
+
+
+
+    private fun initButton() {
+
+        saveButton.setOnClickListener {
+
+            GlobalScope.launch(Dispatchers.IO) {
+                mTestDAO.insertTest(Test(null , editTextTextPersonName.text.toString()))
+                Log.d("TEST", "TEsT!!!!")
+            }
+
+
         }
 
-    }
-
-    fun getBase64String(bitmap: Bitmap): String? {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-        val imageBytes = byteArrayOutputStream.toByteArray()
-        return Base64.encodeToString(imageBytes, Base64.NO_WRAP)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-
-            when (requestCode) {
-                REQ_GALLERY -> {
-                    data?.data?.let { it ->
-                        //it ->  image Uri 임 이거를 가지고 파일저장하거나 하면됩니당.
-                        Log.d("img", it.toString())
-                        customSharedpreferences.put("imgPath", it.toString())
-                        val subImg: ImageView = ImageView(this)
-                        subImg.setImageURI(it)
-                        img!!.setImageURI(it)
-
-                        val d: Drawable = subImg.drawable
-                        val bt: Bitmap = d.toBitmap()
-                        val base64enCode = getBase64String(bt)
-
-                        Log.d("base64Code=", base64enCode!!)
-
-                        AndroidNetworking.post("https://형서버")
-                            .addBodyParameter("imgPath",base64enCode)
-                            .addBodyParameter("회원ID","회원ID")
-                            .build().getAsString(object : StringRequestListener {
-                                override fun onResponse(response: String) {
-
-                                    Log.d("response=", response)
-
-
-                                }
-
-                                override fun onError(anError: ANError) {}
-                            })
-
-
-                    }
+        updateButton.setOnClickListener {
+            GlobalScope.launch(Dispatchers.IO) {
+                if ( mData != null ) {
+                    mData!!.title = editTextTextPersonName.text.toString()
+                    mTestDAO.updateTest(mData!!)
+                    //userMessageToRead("수정완료!")
+                } else {
+                    Log.d("TEST", "Null!!!!")
                 }
             }
         }
+
+        deleteButton.setOnClickListener {
+            GlobalScope.launch(Dispatchers.IO) {
+                mTestDAO.deleteTest(mData!!)
+                editTextTextPersonName.setText("")
+                //userMessageToRead("삭제")
+            }
+        }
+
     }
+
+    private fun userMessageToRead(message : String) {
+        Toast.makeText(applicationContext , message , Toast.LENGTH_SHORT).show()
+    }
+
+
 }
