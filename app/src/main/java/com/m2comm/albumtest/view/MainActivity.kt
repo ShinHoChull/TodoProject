@@ -45,20 +45,15 @@ class MainActivity : AppCompatActivity() {
 
 
         GlobalScope.launch(Dispatchers.IO) {
-            Log.d("MainActivity=","123")
             mData = mTestDAO.getData()
             if (mData != null) {
                 Log.d("MainActivity=",mData.toString())
                 editTextTextPersonName.setText(mData!!.title)
             }
         }
-
-
         this.initButton()
 
     }
-
-
 
 
     private fun initButton() {
@@ -69,8 +64,6 @@ class MainActivity : AppCompatActivity() {
                 mTestDAO.insertTest(Test(null , editTextTextPersonName.text.toString()))
                 Log.d("TEST", "TEsT!!!!")
             }
-
-
         }
 
         updateButton.setOnClickListener {

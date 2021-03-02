@@ -12,13 +12,13 @@ interface TodoDAO {
     fun getTodoList() : LiveData<List<Todo>>
 
     @Insert
-    fun insertTodo(todoModel : Todo)
+    suspend fun insertTodo(todoModel : Todo)
 
     @Update
-    fun updateTodo(todoModel: Todo)
+    suspend fun updateTodo(todoModel: Todo)
 
     @Delete
-    fun deleteTodo(todoModel : Todo)
+    suspend fun deleteTodo(todoModel : Todo)
 
 
 }
