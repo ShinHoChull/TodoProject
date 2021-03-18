@@ -6,38 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
 
-    <LinearLayout
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/saveButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="save"
-             />
-
-        <Button
-            android:id="@+id/updateButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="update" />
-
-        <Button
-            android:id="@+id/deleteButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delete" />
-
-        <EditText
-            android:id="@+id/editTextTextPersonName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:inputType="textPersonName"
-            />
-    </LinearLayout>
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/nav_bottom"
+        app:navGraph="@navigation/meber_nav_graph"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        />
 
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/user_menu"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/menuLottoList"
+    app:startDestination="@id/lottoSaveList">
+
+    <fragment
+        android:id="@+id/lottoSaveList"
+        android:name="com.m2comm.albumtest.view.lotto.LottoSaveList"
+        android:label="fragment_lotto_save_list"
+        tools:layout="@layout/fragment_lotto_save_list" >
+        <action
+            android:id="@+id/action_lottoSaveList_to_lottoListDetail"
+            app:destination="@id/lottoListDetail" />
+    </fragment>
+    <fragment
+        android:id="@+id/lottoListDetail"
+        android:name="com.m2comm.albumtest.view.lotto.LottoListDetail"
+        android:label="fragment_lotto_list_detail"
+        tools:layout="@layout/fragment_lotto_list_detail" />
+</navigation>
