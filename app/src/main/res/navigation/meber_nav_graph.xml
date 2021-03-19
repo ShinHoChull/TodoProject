@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/memberProfile"
         android:name="com.m2comm.albumtest.view.member.MemberProfile"
-        android:label="fragment_member_profile"
+        android:label="1"
         tools:layout="@layout/fragment_member_profile" />
 </navigation>

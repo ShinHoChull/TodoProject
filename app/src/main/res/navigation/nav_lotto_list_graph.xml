@@ -8,15 +8,56 @@
     <fragment
         android:id="@+id/lottoSaveList"
         android:name="com.m2comm.albumtest.view.lotto.LottoSaveList"
-        android:label="fragment_lotto_save_list"
+        android:label="1"
         tools:layout="@layout/fragment_lotto_save_list" >
         <action
             android:id="@+id/action_lottoSaveList_to_lottoListDetail"
-            app:destination="@id/lottoListDetail" />
+            app:destination="@id/lottoListDetail"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_from_left"
+            app:popExitAnim="@anim/slide_to_right" />
+        <action
+            android:id="@+id/action_lottoSaveList_to_lottoListDetail2"
+            app:destination="@id/lottoListDetail2"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_from_left"
+            app:popExitAnim="@anim/slide_to_right" />
+        <action
+            android:id="@+id/action_lottoSaveList_to_lotoListDetail3"
+            app:destination="@id/lotoListDetail3" />
     </fragment>
     <fragment
         android:id="@+id/lottoListDetail"
         android:name="com.m2comm.albumtest.view.lotto.LottoListDetail"
-        android:label="fragment_lotto_list_detail"
+        android:label="화면 3 디테일"
         tools:layout="@layout/fragment_lotto_list_detail" />
+    <fragment
+        android:id="@+id/lottoListDetail2"
+        android:name="com.m2comm.albumtest.view.lotto.LottoListDetail2"
+        android:label="화면 3 디테일2"
+        tools:layout="@layout/fragment_lotto_list_detail2">
+        <action
+            android:id="@+id/action_lottoListDetail2_to_lotoListDetail3"
+            app:destination="@id/lotoListDetail3"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_from_left"
+            app:popExitAnim="@anim/slide_to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/lotoListDetail3"
+        android:name="com.m2comm.albumtest.view.lotto.LottoListDetail3"
+        android:label="LotoListDetail3"
+        tools:layout="@layout/fragment_lotto_list_detail3">
+        <action
+            android:id="@+id/action_lotoListDetail3_to_lottoSaveList"
+            app:destination="@id/lottoSaveList"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_from_left"
+            app:popExitAnim="@anim/slide_to_right"
+            app:popUpTo="@id/lottoSaveList" />
+    </fragment>
 </navigation>

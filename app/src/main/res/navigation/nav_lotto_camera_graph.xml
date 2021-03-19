@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/lottoCamera"
         android:name="com.m2comm.albumtest.view.lotto.LottoCamera"
-        android:label="fragment_lotto_camera"
+        android:label="1"
         tools:layout="@layout/fragment_lotto_camera" />
 </navigation>
