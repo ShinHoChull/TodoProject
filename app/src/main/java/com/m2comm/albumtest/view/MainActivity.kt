@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
@@ -18,15 +19,19 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide.init
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.m2comm.albumtest.R
 import com.m2comm.albumtest.common.Defines
 import com.m2comm.albumtest.common.Defines.Companion.y
 import com.m2comm.albumtest.extensions.setupWithNavController
+import com.m2comm.albumtest.viewmodel.MainViewModel
+import com.m2comm.albumtest.viewmodel.TodoViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.coroutines.*
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() ,NavController.OnDestinationChangedListener {
@@ -35,12 +40,51 @@ class MainActivity : AppCompatActivity() ,NavController.OnDestinationChangedList
     private var currentNavController: LiveData<NavController>? = null
     private val TAG = MainActivity::class.java.simpleName
 
+
+    private lateinit var mMainViewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         if(savedInstanceState == null) {
             initNavigation()
+        }
+        init()
+        initListener()
+    }
+
+    private fun init() {
+
+        //Null값 체크
+        Objects.requireNonNull(application)
+        mMainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
+
+//        mMainViewModel = ViewModelProvider.AndroidViewModelFactory
+//            .getInstance(application)
+//            .create(MainViewModel::class.java)
+
+        mMainViewModel.getChangeScroll().observe(this , {
+            Defines.y("zzzzzzzz")
+        })
+
+        mMainViewModel.mSaveClickRow.observe(this , {
+            Defines.y("당신은 ${it}을 누르셨습니다. ")
+        })
+    }
+
+    var isShow = true
+    private fun initListener() {
+
+        fab.setOnClickListener {
+            Defines.y("click")
+            if ( isShow ) {
+                isShow = false
+                bottomAppBar.performHide()
+            } else {
+                isShow = true
+                bottomAppBar.performShow()
+            }
         }
     }
 
@@ -53,6 +97,7 @@ class MainActivity : AppCompatActivity() ,NavController.OnDestinationChangedList
         val controller = mBottomNavigationView.setupWithNavController(
             navGraphIds, supportFragmentManager, R.id.nav_host_container, intent
         )
+
 
         controller.observe(this, Observer {navController->
             //내부적으로 하고싶으면 하단 주석을 풀면되고 .
@@ -73,17 +118,34 @@ class MainActivity : AppCompatActivity() ,NavController.OnDestinationChangedList
     ) {
 
         if ( destination.label.toString() != "1" ) {
-            Defines.y("depth Number 2")
             toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
+            mainLogoVisibleToGone(destination.label.toString())
             toolbar.mainLog.visibility = View.GONE
             toolbar.setNavigationOnClickListener {
                 controller.navigateUp()
             }
         } else {
-            toolbar.setNavigationIcon(null)
-            toolbar.mainLog.visibility = View.VISIBLE
+            toolbar.navigationIcon = null
+            mainLogoGoneToVisible()
         }
     }
+
+    private fun mainLogoGoneToVisible () {
+        toolbar.mainLog.visibility = View.VISIBLE
+        toolbar.subLog.visibility = View.GONE
+        fab.show()
+    }
+
+    /**
+     * @param subText SubFragment lable
+     */
+    private fun mainLogoVisibleToGone (subText : String) {
+        toolbar.mainLog.visibility = View.GONE
+        toolbar.subLog.visibility = View.VISIBLE
+        toolbar.subLog.subText.text = subText
+        fab.hide()
+    }
+
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
@@ -92,6 +154,11 @@ class MainActivity : AppCompatActivity() ,NavController.OnDestinationChangedList
 
     override fun onSupportNavigateUp(): Boolean {
         return currentNavController?.value?.navigateUp() ?: false
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Defines.y("onDestroy")
     }
 
 

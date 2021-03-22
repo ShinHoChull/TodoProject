@@ -47,12 +47,11 @@ class TodoMainActivity : AppCompatActivity() {
             .observe(this, androidx.lifecycle.Observer {
                 mTodoListAdapter.setTodoItems(it)
             })
+        Toast.makeText(this , "todoMain",Toast.LENGTH_SHORT).show()
     }
 
     private fun initAddButton() {
-        btn_add_todo.setOnClickListener {
-            this.openAddTodoDialog(Todo(),false)
-        }
+
     }
 
     private fun openAddTodoDialog(todoModel: Todo, isModify: Boolean) {
@@ -112,11 +111,7 @@ class TodoMainActivity : AppCompatActivity() {
             }
         }
 
-        rl_todo_list.run {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(this@TodoMainActivity)
-            adapter = mTodoListAdapter
-        }
+
 
     }
 

@@ -1,21 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
         android:id="@+id/menuJoin"
         android:title="User Profile"
-        android:icon="@drawable/ic_baseline_supervised_user_circle_24"
+        android:icon="@drawable/ic_baseline_local_fire_department_24"
+        android:background="@android:color/white"
         />
 
     <item
         android:id="@+id/menuLottoCamera"
-        android:title="Camera Action"
+        android:title="aa"
         android:icon="@drawable/ic_baseline_videogame_asset_24"
+        android:background="@android:color/transparent"
+
         />
+
+    <item
+        android:background="@android:color/transparent"
+        android:title="" />
+
+    <item
+        android:background="@android:color/transparent"
+        android:title="" />
 
     <item
         android:id="@+id/menuLottoList"
         android:title="My List"
         android:icon="@drawable/ic_baseline_list_24"
+        android:background="@android:color/transparent"
         />
 
 </menu>
